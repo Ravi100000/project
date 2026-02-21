@@ -1,0 +1,15 @@
+{
+  "sqltools.connections": [
+    {
+      "name": "FleetFlow PostgreSQL",
+      "driver": "PostgreSQL",
+      "server": "localhost",
+      "port": 5432,
+      "database": "fleetflow_db",
+      "username": "fleetflow_user",
+      "password": "FleetFlow2024!",
+      "previewLimit": 50,
+      "ssl": false
+    }
+  ]
+}

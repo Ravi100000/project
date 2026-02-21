@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Your account information</p>
+</div>
+<div class="form-card">
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="kpi-icon primary" style="width:60px;height:60px;font-size:1.8rem;">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <div>
+            <h5 class="mb-1">{{ user.get_full_name|default:user.username }}</h5>
+            <span class="status-badge status-active">{{ user.get_role_display }}</span>
+        </div>
+    </div>
+    <hr>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="mb-2"><span class="text-secondary small">Username</span><p class="mb-0 fw-600">{{ user.username }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2"><span class="text-secondary small">Email</span><p class="mb-0">{{ user.email|default:'—' }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2"><span class="text-secondary small">Role</span><p class="mb-0">{{ user.get_role_display }}</p></div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2"><span class="text-secondary small">Joined</span><p class="mb-0">{{ user.date_joined|date:"d M Y" }}</p></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

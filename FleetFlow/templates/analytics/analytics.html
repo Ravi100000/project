@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Analytics & Reporting</h1>
+    <p class="page-subtitle">Fleet intelligence — costs, ROI & efficiency</p>
+</div>
+
+<!-- KPI CARDS -->
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="kpi-card danger">
+            <div class="d-flex justify-content-between"><div>
+                <div class="kpi-label">Total Fuel Cost</div>
+                <div class="kpi-value text-danger">₹{{ total_fuel|floatformat:0 }}</div>
+            </div><div class="kpi-icon danger"><i class="bi bi-fuel-pump"></i></div></div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="kpi-card warning">
+            <div class="d-flex justify-content-between"><div>
+                <div class="kpi-label">Maintenance Cost</div>
+                <div class="kpi-value text-warning">₹{{ total_maintenance|floatformat:0 }}</div>
+            </div><div class="kpi-icon warning"><i class="bi bi-tools"></i></div></div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="kpi-card info">
+            <div class="d-flex justify-content-between"><div>
+                <div class="kpi-label">Total Expenses</div>
+                <div class="kpi-value text-info">₹{{ total_expenses|floatformat:0 }}</div>
+            </div><div class="kpi-icon info"><i class="bi bi-cash-stack"></i></div></div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="kpi-card primary">
+            <div class="d-flex justify-content-between"><div>
+                <div class="kpi-label">Fleet Utilisation</div>
+                <div class="kpi-value text-primary">{{ utilisation_rate }}%</div>
+            </div><div class="kpi-icon primary"><i class="bi bi-speedometer2"></i></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- CHARTS ROW -->
+<div class="row g-4 mb-4">
+    <div class="col-md-8">
+        <div class="chart-card">
+            <div class="chart-title"><i class="bi bi-graph-up me-2 text-primary"></i>Monthly Fuel Cost Trend</div>
+            <canvas id="fuelChart" height="180"></canvas>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="chart-card">
+            <div class="chart-title"><i class="bi bi-bar-chart me-2 text-warning"></i>Top 5 Costliest Vehicles</div>
+            <canvas id="vehicleChart" height="260"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- DEAD STOCK -->
+{% if dead_stock %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="card-title text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Dead Stock Vehicles (No trips in 30 days)</h6>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead><tr><th>Plate</th><th>Make/Model</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for v in dead_stock %}
+                <tr>
+                    <td><strong>{{ v.license_plate }}</strong></td>
+                    <td>{{ v.make }} {{ v.model }}</td>
+                    <td>{{ v.get_vehicle_type_display }}</td>
+                    <td><span class="status-badge status-{{ v.status|lower }}">{{ v.get_status_display }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block scripts %}
+<script>
+const fuelLabels = {{ fuel_labels|safe }};
+const fuelData = {{ fuel_data|safe }};
+const vehicleLabels = {{ vehicle_labels|safe }};
+const vehicleData = {{ vehicle_data|safe }};
+
+// Fuel Trend Chart
+const fuelCtx = document.getElementById('fuelChart').getContext('2d');
+new Chart(fuelCtx, {
+    type: 'line',
+    data: {
+        labels: fuelLabels,
+        datasets: [{
+            label: 'Fuel Cost (₹)',
+            data: fuelData,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.08)',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#3b82f6',
+            pointRadius: 4,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b', font: { size: 11 } } },
+            x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 11 } } }
+        }
+    }
+});
+
+// Top Vehicles Chart
+const vCtx = document.getElementById('vehicleChart').getContext('2d');
+new Chart(vCtx, {
+    type: 'bar',
+    data: {
+        labels: vehicleLabels,
+        datasets: [{
+            label: 'Fuel Cost (₹)',
+            data: vehicleData,
+            backgroundColor: ['#3b82f6','#6366f1','#8b5cf6','#a78bfa','#c4b5fd'],
+            borderRadius: 6
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 11 } } },
+            x: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b', font: { size: 11 } } }
+        }
+    }
+});
+</script>
+{% endblock %}

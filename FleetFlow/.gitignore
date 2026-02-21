@@ -1,0 +1,31 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project specific
+.gemini/
+.agent/
+*.txt
+verify_server.py
+verify_driver_list.py
+test_detailed_logins.py
+restore_templates.py
+debug_verify.py
+reset_fleet.py
+seeder.py
+demo_runner.py
+full_error_utf8.txt

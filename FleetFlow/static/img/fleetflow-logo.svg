@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" viewBox="0 0 180 40">
+  <rect width="180" height="40" rx="6" fill="#0ea5a5" />
+  <g transform="translate(8,6)" fill="#fff" font-family="Segoe UI, Arial" font-size="14">
+    <text x="40" y="16" font-weight="700">FleetFlow</text>
+  </g>
+  <g transform="translate(8,6)" fill="#fff" opacity="0.95">
+    <path d="M6 8 L18 8 L22 12 L22 20 L4 20 L4 12 Z" fill="#fff" />
+  </g>
+</svg>

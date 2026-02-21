@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Portal - Registration Requests{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="display-6 fw-bold text-primary"><i class="bi bi-shield-check mr-2"></i>Admin Portal</h2>
+            <p class="text-muted">Manage pending registration requests and system users.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">Pending Registration Requests</h5>
+        </div>
+        <div class="card-body">
+            {% if unapproved_users %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Requested Role</th>
+                            <th>Registered On</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in unapproved_users %}
+                        <tr>
+                            <td><strong>{{ user.username }}</strong></td>
+                            <td>{{ user.get_full_name|default:"N/A" }}</td>
+                            <td>{{ user.email }}</td>
+                            <td><span class="badge bg-secondary">{{ user.get_role_display }}</span></td>
+                            <td>{{ user.date_joined|date:"M d, Y H:i" }}</td>
+                            <td class="text-end">
+                                <form action="{% url 'approve-user' user.id %}" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check-lg mr-1"></i>Approve
+                                    </button>
+                                    <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure you want to reject this registration?')">
+                                        <i class="bi bi-x-lg mr-1"></i>Reject
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-check2-circle display-1 text-success mb-3"></i>
+                <h5>No pending requests!</h5>
+                <p class="text-muted">All registration requests have been processed.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

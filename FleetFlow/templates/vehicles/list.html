@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load auth_extras %}
+{% block title %}Vehicles{% endblock %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-start">
+<div>
+<h1 class="page-title"><i class="bi bi-truck me-2 text-primary"></i>Vehicles</h1>
+<p class="page-subtitle">Manage your fleet registry</p>
+</div>
+{% if user.is_manager %}
+<a href="{% url 'vehicle-create' %}" class="btn btn-primary">
+<i class="bi bi-plus-lg me-1"></i>Add Vehicle
+</a>
+{% endif %}
+</div>
+<form method="get" id="filterForm">
+<div class="adv-toolbar card mb-4">
+<div class="card-body py-2 px-3">
+<div class="d-flex flex-wrap align-items-center gap-2">
+<div class="search-wrap">
+<i class="bi bi-search search-icon"></i>
+<input type="text" name="q" class="form-control search-input"
+placeholder="Search plate, make, model..." value="{{ q }}" oninput="delaySubmit(this)">
+{% if q %}
+<button type="button" class="clear-btn" onclick="clearField('q')">
+<i class="bi bi-x"></i>
+</button>
+{% endif %}
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-funnel text-secondary me-1"></i>
+<select name="type" class="filter-select" onchange="filterForm.submit()">
+<option value="">All Types</option>
+{% for val, label in vehicle_types %}
+<option value="{{ val }}"
+{% if selected_type|is_equal:val %}
+selected
+{% endif %}>
+{{ label }}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="filter-pill">
+<i class="bi bi-circle-half text-secondary me-1"></i>
+<select name="status" class="filter-select" onchange="filterForm.submit()">
+<option value="">All Statuses</option>
+{% for val, label in status_choices %}
+<option value="{{ val }}"
+{% if selected_status|is_equal:val %}
+selected
+{% endif %}>
+{{ label }}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-arrow-down-up text-secondary me-1"></i>
+<select name="sort" class="filter-select" onchange="filterForm.submit()">
+<option value="-created_at"
+{% if selected_sort|is_equal:"-created_at" or not selected_sort %}
+selected
+{% endif %}>
+Newest First
+</option>
+<option value="created_at"
+{% if selected_sort|is_equal:"created_at" %}
+selected
+{% endif %}>
+Oldest First
+</option>
+<option value="license_plate"
+{% if selected_sort|is_equal:"license_plate" %}
+selected
+{% endif %}>
+Plate A-Z
+</option>
+</select>
+</div>
+{% if q or selected_type or selected_status or selected_sort %}
+<a href="{% url 'vehicle-list' %}" class="btn btn-sm btn-outline-danger ms-auto">
+<i class="bi bi-x-circle me-1"></i>Clear All
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+</form>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<p class="text-secondary mb-0" style="font-size:.85rem;">
+Showing <strong>{{ page_obj.start_index }}</strong>-<strong>{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> vehicles
+</p>
+</div>
+<div class="card">
+{% if vehicles %}
+<div class="table-responsive">
+<table class="table">
+<thead>
+<tr>
+<th>License Plate</th>
+<th>Make / Model</th>
+<th>Type</th>
+<th>Status</th>
+<th>Capacity (kg)</th>
+<th>Odometer (km)</th>
+<th>Year</th>
+{% if user.is_manager %}<th>Actions</th>{% endif %}
+</tr>
+</thead>
+<tbody>
+{% for v in vehicles %}
+<tr>
+<td><strong>{{ v.license_plate }}</strong></td>
+<td>{{ v.make }} {{ v.model }}</td>
+<td><span class="badge bg-secondary">{{ v.get_vehicle_type_display }}</span></td>
+<td><span class="status-badge status-{{ v.status|lower }}">{{ v.get_status_display }}</span></td>
+<td>{{ v.capacity_kg }}</td>
+<td>{{ v.odometer }}</td>
+<td>{{ v.year }}</td>
+{% if user.is_manager %}
+<td>
+<div class="table-actions">
+<a href="{% url 'vehicle-edit' v.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+<a href="{% url 'vehicle-delete' v.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+</div>
+</td>
+{% endif %}
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<div class="empty-state"><i class="bi bi-truck"></i>
+<p>No vehicles found.</p>
+</div>
+{% endif %}
+</div>
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="d-flex justify-content-center mt-4">
+<ul class="pagination">
+{% if page_obj.has_previous %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q }}&type={{ selected_type }}&status={{ selected_status }}&sort={{ selected_sort }}">Prev</a>
+</li>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+<li class="page-item
+{% if page_obj.number|is_equal:num %}
+active
+{% endif %}">
+<a class="page-link" href="?page={{ num }}&q={{ q }}&type={{ selected_type }}&status={{ selected_status }}&sort={{ selected_sort }}">{{ num }}</a>
+</li>
+{% endfor %}
+{% if page_obj.has_next %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q }}&type={{ selected_type }}&status={{ selected_status }}&sort={{ selected_sort }}">Next</a>
+</li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<script>
+function delaySubmit(input) {
+clearTimeout(input.dataset.timer);
+input.dataset.timer = setTimeout(() => {
+input.form.submit();
+}, 500);
+}
+function clearField(name) {
+document.getElementsByName(name)[0].value = '';
+document.getElementById('filterForm').submit();
+}
+</script>
+{% endblock %}

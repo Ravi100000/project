@@ -1,0 +1,678 @@
+﻿[
+{
+  "model": "sessions.session",
+  "pk": "8dyseb6vnywyqv88tyed7c9dpyvw9lpe",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMRe-SGUUlqW3CyM4ZIjsxpIBSqWknxN1ppQ6wvvf-f5vIy1zi0nSKQzZnQ-bwy4TTU-sm8oPrfbRprPM0iN0Su9tmr2PW12Vv_w4Kt7Ku4YTSBRHRI3iHxOAVvXqgwKFbiRCBaq-e5IaphwSK5Bxyck4JzecL0Ow3Vw:1vtknp:n7drnHtcqg110nRWEY27gn6_ohRQATBO0OeSwsqGEt4",
+    "expire_date": "2026-03-07T11:05:37.888Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9ko6goeaw63dh1toxgdz8w1sixxgj86q",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnr9UeYkp4zWGvvBgeQI8VJFXF3iJQC2jczb1OJ1qWmtcucRlYXFdXpd8tUntJ2wA9q90mXqS3zmPWu6IN2fZtYXtfD_Tuo1Ou3dgZcsRIoR28zgy-CxkqkQICGQIILYuKAiBINeCc82DN4n1GAqaj3B9mHN7M:1vtkR6:hAvLLZl0gwQQ3Acn1nq0wuzXoF0J2mJ-_mNbtYDD5PY",
+    "expire_date": "2026-03-07T10:42:08.433Z"
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$QmlF5a41jtyxlBs0iwNSAl$E/dF1+SpynDsFUwwr3sliI7gFFpN9a78yW/ZZtXdCGU=",
+    "last_login": "2026-02-21T10:19:05.343Z",
+    "is_superuser": true,
+    "username": "superuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "superuser@fleetflow.test",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:27.798Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1LD4FZMEVA3VgZyOXln5dM$UvSx+prdHvSZnLrFAPx3hAogZfJKLg4IRYgez52GZMU=",
+    "last_login": "2026-02-21T10:20:37.255Z",
+    "is_superuser": false,
+    "username": "admin_user",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin_user@fleetflow.test",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:28.232Z",
+    "role": "ADMIN",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$fbfE5dLgJBkmGDQbpkuHGA$jJbCmpPe8vDPE0FeldpA6um5YRFGY6ErQ6y/8/kwuv8=",
+    "last_login": "2026-02-21T10:20:05.929Z",
+    "is_superuser": false,
+    "username": "manager_user",
+    "first_name": "",
+    "last_name": "",
+    "email": "manager_user@fleetflow.test",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:28.676Z",
+    "role": "MANAGER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$sUjTWp5k01YmyYxmA5rDK6$oH2N+h+S/2VroT6u/tW1JwtN0S6Fj1GjVqpRlVEm+HM=",
+    "last_login": "2026-02-21T10:25:42.724Z",
+    "is_superuser": false,
+    "username": "dispatcher_user",
+    "first_name": "",
+    "last_name": "",
+    "email": "dispatcher_user@fleetflow.test",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:29.108Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$zhfyMKIFRQYZyZbuhaym2l$lclxn/heB3K4kkTqTQpwZZKNXX3N0ODrtg+qJcrEiLM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "safety_user",
+    "first_name": "",
+    "last_name": "",
+    "email": "safety_user@fleetflow.test",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:29.553Z",
+    "role": "SAFETY",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$2IUBC2jPEGqw8ZsoSELM8l$Xn1MIV8DyhCOcL4XuSMWaMWYKa9OR+xYidg2CUFzWcs=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "finance_user",
+    "first_name": "",
+    "last_name": "",
+    "email": "finance_user@fleetflow.test",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:18:29.997Z",
+    "role": "FINANCE",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$OH7XnpAqBr3dohQns82oMB$Nprjcl/m9r166VtMwPC8Mkh3pAOX1JCNnerX4GJQf+w=",
+    "last_login": "2026-02-21T11:05:37.882Z",
+    "is_superuser": true,
+    "username": "ceo_rohit",
+    "first_name": "Rohit",
+    "last_name": "Kumar",
+    "email": "ceo_rohit@fleetflow.in",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:54.922Z",
+    "role": "ADMIN",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$tHshZk2ITYcY3p8dD5lFgQ$VcqEg8dL1in/jWjnHES7HOzNN+4yzPW5Ax13bnsIvo0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "admin_priya",
+    "first_name": "Priya",
+    "last_name": "Desai",
+    "email": "admin_priya@fleetflow.in",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:55.381Z",
+    "role": "ADMIN",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$i4nap6MLPX5TYw34oLba6x$Cj7F0tFXf73MQk3PFpXqlzRzq9EgOnPpKDvum8ZpdSg=",
+    "last_login": "2026-02-21T10:42:08.427Z",
+    "is_superuser": false,
+    "username": "manager_arjun",
+    "first_name": "Arjun",
+    "last_name": "Patel",
+    "email": "manager_arjun@fleetflow.in",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:55.830Z",
+    "role": "MANAGER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$FS2Cpky3XdsEhF5sZdnuYo$mtNoieGSSKUsfR1MqSmqblfR4m/56NWaktMLBXWrK44=",
+    "last_login": "2026-02-21T10:40:36.062Z",
+    "is_superuser": false,
+    "username": "dispatcher_sneha",
+    "first_name": "Sneha",
+    "last_name": "Rao",
+    "email": "dispatcher_sneha@fleetflow.in",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:56.287Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$62d6lvB9iroVYpePizmN7J$4MEp+tRNFj5JNQr1sI40ZXfJxokxU2juItOvhRtjg7M=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "safety_kavita",
+    "first_name": "Kavita",
+    "last_name": "Nair",
+    "email": "safety_kavita@fleetflow.in",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:56.748Z",
+    "role": "SAFETY",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$6D7nqYqO0PiQ6MTHAnMtFP$ydtGRSqJoFmk0t277at9DNn7tN39+rZG+vowiFi1SAw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "finance_suresh",
+    "first_name": "Suresh",
+    "last_name": "Gandhi",
+    "email": "finance_suresh@fleetflow.in",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T10:31:57.186Z",
+    "role": "FINANCE",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$p1jEkvxa1Mj8h6vRgva84T$hvKwy2OYWlSGz7m0ugP3ro2vD//HRgi6qNX99U2OpWk=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "Admin",
+    "last_name": "Manager",
+    "email": "admin@fleetflow.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:19.998Z",
+    "role": "MANAGER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$8WydkkIOVxfg4mUjC31CeS$/7r5YgPmXtXYZwarG7fSiysZkm469avZ+0LrXKWlnVE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "dispatcher1",
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:20.482Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$QG6bUmFpBrwh4ecOrShF7m$40MeYPrwna2YOsA8Qqo0dGph6Qqpaz8Xa9XH8CR6JD0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "safety1",
+    "first_name": "Bob",
+    "last_name": "Brown",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:20.980Z",
+    "role": "SAFETY",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$pMdbRRqxdlwOqakVEz3yax$Od3Zm3V1A0WzIOI/065dEwSBsxOJWJM1HEfR2uLA27w=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "finance1",
+    "first_name": "Carol",
+    "last_name": "White",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:21.474Z",
+    "role": "FINANCE",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pass1234",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "driver1",
+    "first_name": "Ravi",
+    "last_name": "Kumar",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:22.013Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pass1234",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "driver2",
+    "first_name": "Suresh",
+    "last_name": "Rao",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:22.024Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pass1234",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "driver3",
+    "first_name": "Arjun",
+    "last_name": "Nair",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:22.036Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pass1234",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "driver4",
+    "first_name": "Manoj",
+    "last_name": "Singh",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:22.050Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "fields": {
+    "password": "pass1234",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "driver5",
+    "first_name": "Deepak",
+    "last_name": "Patel",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-21T11:04:22.062Z",
+    "role": "DISPATCHER",
+    "is_approved": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 1,
+  "fields": {
+    "license_plate": "KA01AB1234",
+    "make": "Toyota",
+    "model": "Hiace",
+    "year": 2020,
+    "vehicle_type": "VAN",
+    "capacity_kg": "800.00",
+    "status": "ACTIVE",
+    "odometer": "12500.00",
+    "created_at": "2026-02-21T11:04:21.959Z",
+    "updated_at": "2026-02-21T11:04:21.959Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 2,
+  "fields": {
+    "license_plate": "MH04CD5678",
+    "make": "Tata",
+    "model": "Prima",
+    "year": 2019,
+    "vehicle_type": "TRUCK",
+    "capacity_kg": "5000.00",
+    "status": "ACTIVE",
+    "odometer": "89000.00",
+    "created_at": "2026-02-21T11:04:21.964Z",
+    "updated_at": "2026-02-21T11:04:21.964Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 3,
+  "fields": {
+    "license_plate": "DL09EF9012",
+    "make": "Mahindra",
+    "model": "Bolero",
+    "year": 2021,
+    "vehicle_type": "MINI",
+    "capacity_kg": "500.00",
+    "status": "IDLE",
+    "odometer": "4300.00",
+    "created_at": "2026-02-21T11:04:21.970Z",
+    "updated_at": "2026-02-21T11:04:21.970Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 4,
+  "fields": {
+    "license_plate": "TN11GH3456",
+    "make": "Ashok Leyland",
+    "model": "Dost",
+    "year": 2022,
+    "vehicle_type": "TRUCK",
+    "capacity_kg": "3000.00",
+    "status": "ACTIVE",
+    "odometer": "31000.00",
+    "created_at": "2026-02-21T11:04:21.979Z",
+    "updated_at": "2026-02-21T11:04:21.979Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 5,
+  "fields": {
+    "license_plate": "GJ05IJ7890",
+    "make": "Toyota",
+    "model": "Innova",
+    "year": 2023,
+    "vehicle_type": "VAN",
+    "capacity_kg": "600.00",
+    "status": "IN_SHOP",
+    "odometer": "8900.00",
+    "created_at": "2026-02-21T11:04:21.986Z",
+    "updated_at": "2026-02-21T11:04:21.986Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 6,
+  "fields": {
+    "license_plate": "KA02XY1111",
+    "make": "Isuzu",
+    "model": "Elf",
+    "year": 2018,
+    "vehicle_type": "TRUCK",
+    "capacity_kg": "4000.00",
+    "status": "ACTIVE",
+    "odometer": "120000.00",
+    "created_at": "2026-02-21T11:04:21.992Z",
+    "updated_at": "2026-02-21T11:04:21.992Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 7,
+  "fields": {
+    "license_plate": "WB03LM2222",
+    "make": "Suzuki",
+    "model": "Eeco",
+    "year": 2017,
+    "vehicle_type": "VAN",
+    "capacity_kg": "700.00",
+    "status": "ACTIVE",
+    "odometer": "98000.00",
+    "created_at": "2026-02-21T11:04:21.997Z",
+    "updated_at": "2026-02-21T11:04:21.997Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 8,
+  "fields": {
+    "license_plate": "UP04OP3333",
+    "make": "Force",
+    "model": "Traveller",
+    "year": 2016,
+    "vehicle_type": "MINI",
+    "capacity_kg": "600.00",
+    "status": "IDLE",
+    "odometer": "56000.00",
+    "created_at": "2026-02-21T11:04:22.003Z",
+    "updated_at": "2026-02-21T11:04:22.003Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 9,
+  "fields": {
+    "license_plate": "RJ05QR4444",
+    "make": "Tata",
+    "model": "Ace",
+    "year": 2015,
+    "vehicle_type": "TRUCK",
+    "capacity_kg": "1200.00",
+    "status": "IN_SHOP",
+    "odometer": "200000.00",
+    "created_at": "2026-02-21T11:04:22.008Z",
+    "updated_at": "2026-02-21T11:04:22.008Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "driver1"
+    ],
+    "license_number": "DL-MH-0120230012345",
+    "license_expiry": "2027-06-30",
+    "phone": "+91 9876543210",
+    "safety_score": 95,
+    "duty_status": "ON_DUTY",
+    "created_at": "2026-02-21T11:04:22.019Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "driver2"
+    ],
+    "license_number": "DL-KA-0220240067890",
+    "license_expiry": "2025-01-15",
+    "phone": "+91 9123456789",
+    "safety_score": 72,
+    "duty_status": "ON_DUTY",
+    "created_at": "2026-02-21T11:04:22.029Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "driver3"
+    ],
+    "license_number": "DL-TN-0320220099123",
+    "license_expiry": "2028-03-20",
+    "phone": "+91 9845671234",
+    "safety_score": 88,
+    "duty_status": "ON_DUTY",
+    "created_at": "2026-02-21T11:04:22.042Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "driver4"
+    ],
+    "license_number": "DL-UP-0520200000123",
+    "license_expiry": "2026-01-22",
+    "phone": "+91 9012345678",
+    "safety_score": 60,
+    "duty_status": "ON_DUTY",
+    "created_at": "2026-02-21T11:04:22.057Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "driver5"
+    ],
+    "license_number": "DL-GJ-0620250000456",
+    "license_expiry": "2026-12-31",
+    "phone": "+91 9988776655",
+    "safety_score": 40,
+    "duty_status": "SUSPENDED",
+    "created_at": "2026-02-21T11:04:22.069Z"
+  }
+},
+{
+  "model": "trips.trip",
+  "pk": 1,
+  "fields": {
+    "vehicle": 1,
+    "driver": 1,
+    "origin": "Mumbai",
+    "destination": "Pune",
+    "distance_km": "120.00",
+    "estimated_duration_mins": 0,
+    "cargo_weight_kg": "400.00",
+    "estimated_fuel_cost": "14.40",
+    "status": "PENDING",
+    "dispatched_by": [
+      "admin"
+    ],
+    "notes": "",
+    "created_at": "2026-02-21T11:04:22.080Z",
+    "updated_at": "2026-02-21T11:04:22.080Z"
+  }
+},
+{
+  "model": "trips.trip",
+  "pk": 2,
+  "fields": {
+    "vehicle": 4,
+    "driver": 1,
+    "origin": "Delhi",
+    "destination": "Jaipur",
+    "distance_km": "280.00",
+    "estimated_duration_mins": 0,
+    "cargo_weight_kg": "1800.00",
+    "estimated_fuel_cost": "33.60",
+    "status": "PENDING",
+    "dispatched_by": [
+      "admin"
+    ],
+    "notes": "",
+    "created_at": "2026-02-21T11:04:22.090Z",
+    "updated_at": "2026-02-21T11:04:22.090Z"
+  }
+}
+]

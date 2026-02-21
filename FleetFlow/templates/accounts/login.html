@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}Login — FleetFlow{% endblock %}
+{% block auth_content %}
+<div class="auth-card" style="max-width:480px;">
+    <div class="auth-logo"><i class="bi bi-truck-front-fill"></i> FleetFlow</div>
+    <p class="auth-subtitle">Fleet Management Portal</p>
+
+    {% if form.errors %}
+    <div class="alert alert-danger py-2 mb-3 text-center" style="font-size:.85rem;">
+        <i class="bi bi-exclamation-circle me-1"></i>Invalid username or password.
+    </div>
+    {% endif %}
+
+    <!-- Role Selector (choose role first, then enter credentials) -->
+    <div class="mb-4">
+        <label class="form-label"
+            style="color:#94a3b8;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Select
+            Role</label>
+        <div class="row g-2" id="role-row">
+            {% for role_val, role_label, uname, upass, icon, colorcls in role_demos %}
+            <div class="col-6">
+                <button type="button" onclick="selectRole('{{ role_val }}', this)"
+                    class="btn w-100 role-demo-btn {{ colorcls }} role-select-btn" data-role="{{ role_val }}">
+                    <i class="bi {{ icon }} me-1"></i>{{ role_label }}
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr style="border-color:rgba(255,255,255,.1);margin:0 0 20px;">
+
+    <form method="post" id="login-form" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="role" id="id_role" value="">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter username"
+                autocomplete="username" required>
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+                <input type="password" name="password" id="id_password" class="form-control"
+                    placeholder="Enter password" autocomplete="current-password" required>
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePwd()"
+                    style="border-color:rgba(255,255,255,.12);color:#94a3b8;">
+                    <i class="bi bi-eye" id="pwd-eye"></i>
+                </button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </button>
+    </form>
+
+    <div class="text-center mt-4" style="font-size:.85rem;">
+        <span style="color:#64748b;">No account?</span>
+        <a href="{% url 'register' %}" class="auth-link ms-1">Create one</a>
+    </div>
+</div>
+
+<style>
+    .role-demo-btn {
+        padding: 10px 8px;
+        border-radius: 10px;
+        font-size: .8rem;
+        font-weight: 600;
+        text-align: center;
+        border: 1.5px solid transparent;
+        transition: all .2s;
+        line-height: 1.4;
+    }
+
+    .role-manager {
+        background: rgba(59, 130, 246, .15);
+        color: #60a5fa;
+        border-color: rgba(59, 130, 246, .3);
+    }
+
+    .role-manager:hover {
+        background: rgba(59, 130, 246, .3);
+        color: #fff;
+    }
+
+    .role-dispatcher {
+        background: rgba(16, 185, 129, .12);
+        color: #34d399;
+        border-color: rgba(16, 185, 129, .3);
+    }
+
+    .role-dispatcher:hover {
+        background: rgba(16, 185, 129, .3);
+        color: #fff;
+    }
+
+    .role-safety {
+        background: rgba(245, 158, 11, .12);
+        color: #fbbf24;
+        border-color: rgba(245, 158, 11, .3);
+    }
+
+    .role-safety:hover {
+        background: rgba(245, 158, 11, .3);
+        color: #fff;
+    }
+
+    .role-finance {
+        background: rgba(139, 92, 246, .12);
+        color: #c084fc;
+        border-color: rgba(139, 92, 246, .3);
+    }
+
+    .role-finance:hover {
+        background: rgba(139, 92, 246, .3);
+        color: #fff;
+    }
+</style>
+
+    <script>
+    function selectRole(role, btn) {
+        // Remove active from siblings
+        document.querySelectorAll('.role-select-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('id_role').value = role;
+        // update username placeholder to hint role (optional)
+        var uname = document.getElementById('id_username');
+        uname.placeholder = 'Username for ' + role.toLowerCase();
+        uname.focus();
+    }
+    function togglePwd() {
+        var inp = document.getElementById('id_password');
+        var eye = document.getElementById('pwd-eye');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            eye.className = 'bi bi-eye-slash';
+        } else {
+            inp.type = 'password';
+            eye.className = 'bi bi-eye';
+        }
+    }
+    // Auto-select first role on page load for better UX
+    (function(){
+        var first = document.querySelector('.role-select-btn');
+        if(first){ selectRole(first.dataset.role, first); }
+    })();
+</script>
+{% endblock %}

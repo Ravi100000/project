@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+{% load static auth_extras %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="d-flex align-items-center">
+        <img src="{% static 'img/fleetflow-logo.svg' %}" alt="FleetFlow" style="height:40px;margin-right:12px;">
+        <h1 class="page-title">
+        {% if user.is_manager %}Command Center
+        {% elif user.is_dispatcher %}Trip Management
+        {% elif user.is_safety %}Safety Performance
+        {% elif user.is_finance %}Operational Analytics
+        {% else %}Dashboard{% endif %}
+    </h1>
+    </div>
+    <p class="page-subtitle">Real-time oversight of operations</p>
+</div>
+
+<!-- ROLE: MANAGER / ADMIN (Command Center) -->
+{% if user.is_manager %}
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="kpi-card primary">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Active Fleet</div>
+                    <div class="kpi-value">{{ active_vehicles }}</div>
+                </div>
+                <div class="kpi-icon primary"><i class="bi bi-truck"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="kpi-card danger">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">In Shop</div>
+                    <div class="kpi-value">{{ in_shop }}</div>
+                </div>
+                <div class="kpi-icon danger"><i class="bi bi-tools"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="kpi-card warning">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Pending Cargo</div>
+                    <div class="kpi-value">{{ pending_trips }}</div>
+                </div>
+                <div class="kpi-icon warning"><i class="bi bi-box-seam"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="kpi-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Utilisation</div>
+                    <div class="kpi-value">{{ utilisation }}%</div>
+                </div>
+                <div class="kpi-icon info"><i class="bi bi-pie-chart"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- ROLE: SAFETY (Safety Performance) -->
+{% if user.is_safety %}
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="kpi-card primary">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Total Drivers</div>
+                    <div class="kpi-value">{{ total_drivers }}</div>
+                </div>
+                <div class="kpi-icon primary"><i class="bi bi-person-badge"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Avg Safety Score</div>
+                    <div class="kpi-value">{{ avg_safety_score }}</div>
+                </div>
+                <div class="kpi-icon info"><i class="bi bi-shield-check"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card danger">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Expired Licenses</div>
+                    <div class="kpi-value">{{ expired_licenses }}</div>
+                </div>
+                <div class="kpi-icon danger"><i class="bi bi-exclamation-triangle"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- ROLE: FINANCE (Operational Analytics) -->
+{% if user.is_finance %}
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="kpi-card primary">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Total Fuel Cost</div>
+                    <div class="kpi-value">Rs.{{ total_fuel|floatformat:0 }}</div>
+                </div>
+                <div class="kpi-icon primary"><i class="bi bi-fuel-pump"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card warning">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Misc Expenses</div>
+                    <div class="kpi-value">Rs.{{ total_misc|floatformat:0 }}</div>
+                </div>
+                <div class="kpi-icon warning"><i class="bi bi-receipt"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="kpi-label">Grand Total</div>
+                    <div class="kpi-value">Rs.{{ grand_total|floatformat:0 }}</div>
+                </div>
+                <div class="kpi-icon info"><i class="bi bi-cash-stack"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- SHARED: RECENT TRIPS (for Manager and Dispatcher) -->
+{% if user.is_manager or user.is_dispatcher %}
+<div class="row g-4 mb-4">
+    <div class="col-lg-12">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="card-title">Recent Trips</h6>
+                <div class="d-flex gap-2">
+                    <form method="get" class="d-flex gap-2 align-items-center">
+                        <select name="type" class="form-select form-select-sm" style="width:130px;">
+                            <option value="">All Types</option>
+                            {% for val, label in vehicle_types %}
+                            <option value="{{ val }}" {% if selected_type|is_equal:val %} selected {% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <select name="status" class="form-select form-select-sm" style="width:160px;">
+                            <option value="">All Statuses</option>
+                            {% for val, label in status_choices %}
+                            <option value="{{ val }}" {% if selected_status|is_equal:val %} selected {% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">Reset</a>
+                    </form>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Vehicle</th>
+                            <th>Driver</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trip in recent_trips %}
+                        <tr>
+                            <td><strong>#{{ trip.pk }}</strong></td>
+                            <td>{{ trip.origin }}</td>
+                            <td>{{ trip.destination }}</td>
+                            <td>{{ trip.vehicle.license_plate }}</td>
+                            <td>{{ trip.driver.user.get_full_name|default:trip.driver.user.username }}</td>
+                            <td><span class="status-badge status-{{ trip.status|lower }}">{{ trip.get_status_display
+                                    }}</span></td>
+                            <td><a href="{% url 'trip-detail' trip.pk %}"
+                                    class="btn btn-sm btn-outline-secondary">View</a></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-secondary">No recent trips found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- ROLE: SAFETY (Quick Links) -->
+{% if user.is_safety and not user.is_manager %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person-badge me-2 text-primary"></i>Ready to Audit?</h5>
+                <p class="card-text text-secondary">Review the full driver roster to manage license expiries and safety
+                    scores.</p>
+                <a href="{% url 'driver-list' %}" class="btn btn-outline-primary">View Driver Roster</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- ROLE: FINANCE (Quick Links) -->
+{% if user.is_finance and not user.is_manager %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-bar-chart-line me-2 text-primary"></i>Financial Insights</h5>
+                <p class="card-text text-secondary">Deep dive into fuel consumption and operational expenditure trends.
+                </p>
+                <a href="{% url 'analytics' %}" class="btn btn-outline-primary">Go to Analytics</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

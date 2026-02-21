@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load auth_extras %}
+{% block title %}Expenses{% endblock %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-start">
+<div>
+<h1 class="page-title"><i class="bi bi-cash-stack me-2 text-primary"></i>Expenses</h1>
+<p class="page-subtitle">Fuel and operational cost tracking</p>
+</div>
+{% if user.is_finance %}
+<a href="{% url 'expense-create' %}" class="btn btn-primary">
+<i class="bi bi-plus-lg me-1"></i>Log Expense
+</a>
+{% endif %}
+</div>
+<div class="row g-3 mb-4">
+<div class="col-md-4">
+<div class="kpi-card primary">
+<div class="d-flex justify-content-between">
+<div>
+<div class="kpi-label">Total Fuel</div>
+<div class="kpi-value text-primary">Rs.{{ total_fuel|floatformat:2 }}</div>
+</div>
+<div class="kpi-icon primary"><i class="bi bi-fuel-pump"></i></div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="kpi-card warning">
+<div class="d-flex justify-content-between">
+<div>
+<div class="kpi-label">Misc. Expenses</div>
+<div class="kpi-value text-warning">Rs.{{ total_misc|floatformat:2 }}</div>
+</div>
+<div class="kpi-icon warning"><i class="bi bi-receipt"></i></div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="kpi-card info">
+<div class="d-flex justify-content-between">
+<div>
+<div class="kpi-label">Grand Total</div>
+<div class="kpi-value text-info">Rs.{{ total_amount|floatformat:2 }}</div>
+</div>
+<div class="kpi-icon info"><i class="bi bi-cash-stack"></i></div>
+</div>
+</div>
+</div>
+</div>
+<form method="get" id="filterForm">
+<div class="adv-toolbar card mb-4">
+<div class="card-body py-2 px-3">
+<div class="d-flex flex-wrap align-items-center gap-2">
+<div class="search-wrap">
+<i class="bi bi-search search-icon"></i>
+<input type="text" name="q" class="form-control search-input"
+placeholder="Search driver, notes..." value="{{ q }}" oninput="delaySubmit(this)">
+{% if q %}
+<button type="button" class="clear-btn" onclick="clearField('q')">
+<i class="bi bi-x"></i>
+</button>
+{% endif %}
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-calendar text-secondary me-1"></i>
+<input type="date" name="date_from" class="filter-select"
+value="{{ date_from }}" onchange="filterForm.submit()" title="From date">
+</div>
+<div class="filter-pill">
+<span class="text-secondary small">to</span>
+<input type="date" name="date_to" class="filter-select"
+value="{{ date_to }}" onchange="filterForm.submit()" title="To date">
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-arrow-down-up text-secondary me-1"></i>
+<select name="sort" class="filter-select" onchange="filterForm.submit()">
+<option value="-date"
+{% if selected_sort|is_equal:"-date" or not selected_sort %}
+selected
+{% endif %}>
+Newest First
+</option>
+<option value="date"
+{% if selected_sort|is_equal:"date" %}
+selected
+{% endif %}>
+Oldest First
+</option>
+</select>
+</div>
+{% if q or date_from or date_to or selected_sort %}
+<a href="{% url 'expense-list' %}" class="btn btn-sm btn-outline-danger ms-auto">
+<i class="bi bi-x-circle me-1"></i>Clear All
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+</form>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<p class="text-secondary mb-0" style="font-size:.85rem;">
+Showing <strong>{{ page_obj.start_index }}</strong>-<strong>{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> records
+</p>
+</div>
+<div class="card">
+{% if expenses %}
+<div class="table-responsive">
+<table class="table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Trip</th>
+<th>Driver</th>
+<th>Fuel (L)</th>
+<th>Fuel Cost (Rs.)</th>
+<th>Misc (Rs.)</th>
+<th>Total (Rs.)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+{% for e in expenses %}
+<tr>
+<td>{{ e.date|date:"d M Y" }}</td>
+<td>
+{% if e.trip %}
+<a href="{% url 'trip-detail' e.trip.pk %}">#{{ e.trip.pk }}</a>
+{% else %}
+<span class="text-secondary">---</span>
+{% endif %}
+</td>
+<td>{{ e.driver.user.get_full_name|default:e.driver.user.username|default:"---" }}</td>
+<td>{{ e.fuel_litres|floatformat:1 }}</td>
+<td class="fw-600">Rs.{{ e.fuel_cost|floatformat:2 }}</td>
+<td>Rs.{{ e.misc_expense|floatformat:2 }}</td>
+<td class="fw-600 text-primary">Rs.{{ e.total_cost|floatformat:2 }}</td>
+<td class="text-secondary small">{{ e.notes|truncatechars:50|default:"---" }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<div class="empty-state"><i class="bi bi-cash-stack"></i>
+<p>No expense records found.</p>
+</div>
+{% endif %}
+</div>
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="d-flex justify-content-center mt-4">
+<ul class="pagination">
+{% if page_obj.has_previous %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q }}&sort={{ selected_sort }}&date_from={{ date_from }}&date_to={{ date_to }}">Prev</a>
+</li>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+<li class="page-item
+{% if page_obj.number|is_equal:num %}
+active
+{% endif %}">
+<a class="page-link" href="?page={{ num }}&q={{ q }}&sort={{ selected_sort }}&date_from={{ date_from }}&date_to={{ date_to }}">{{ num }}</a>
+</li>
+{% endfor %}
+{% if page_obj.has_next %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q }}&sort={{ selected_sort }}&date_from={{ date_from }}&date_to={{ date_to }}">Next</a>
+</li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<script>
+function delaySubmit(input) {
+clearTimeout(input.dataset.timer);
+input.dataset.timer = setTimeout(() => {
+input.form.submit();
+}, 500);
+}
+function clearField(name) {
+document.getElementsByName(name)[0].value = '';
+document.getElementById('filterForm').submit();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-subtitle"><a href="{% url 'trip-list' %}" class="text-secondary">Trips</a> / {{ title }}</p>
+</div>
+<div class="form-card">
+    <div class="alert alert-info d-flex align-items-center py-2 mb-4" role="alert" style="font-size:.85rem;">
+        <i class="bi bi-info-circle me-2"></i>
+        Only active vehicles and on-duty drivers with valid licenses are shown.
+        Cargo weight will be validated against vehicle capacity.
+    </div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Vehicle *</label>
+                {{ form.vehicle }}
+                {% if form.vehicle.errors %}<div class="text-danger small">{{ form.vehicle.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Driver *</label>
+                {{ form.driver }}
+                {% if form.driver.errors %}<div class="text-danger small">{{ form.driver.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Origin *</label>
+                {{ form.origin }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Destination *</label>
+                {{ form.destination }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Distance (km)</label>
+                {{ form.distance_km }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Cargo Weight (kg) *</label>
+                {{ form.cargo_weight_kg }}
+                {% if form.cargo_weight_kg.errors %}<div class="text-danger small">{{ form.cargo_weight_kg.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label d-block">Est. Fuel Cost</label>
+                <div class="form-control bg-light text-muted" id="fuel-preview">Auto-calculated</div>
+            </div>
+            <div class="col-12">
+                <label class="form-label">Notes</label>
+                {{ form.notes }}
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="d-flex gap-3">
+            <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-send me-2"></i>Dispatch Trip
+            </button>
+            <a href="{% url 'trip-list' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+// Live fuel cost preview
+const distInput = document.querySelector('[name="distance_km"]');
+const fuelPreview = document.getElementById('fuel-preview');
+const RATE = 0.12;
+if (distInput && fuelPreview) {
+    distInput.addEventListener('input', () => {
+        const dist = parseFloat(distInput.value) || 0;
+        fuelPreview.textContent = '₹' + (dist * RATE).toFixed(2);
+    });
+}
+</script>
+{% endblock %}

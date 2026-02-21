@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load auth_extras %}
+{% block title %}Maintenance{% endblock %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-start">
+<div>
+<h1 class="page-title"><i class="bi bi-tools me-2 text-primary"></i>Maintenance Log</h1>
+<p class="page-subtitle">Vehicle service and repair records</p>
+</div>
+{% if user.is_manager %}
+<a href="{% url 'maintenance-create' %}" class="btn btn-primary">
+<i class="bi bi-plus-lg me-1"></i>Log Event
+</a>
+{% endif %}
+</div>
+<form method="get" id="filterForm">
+<div class="adv-toolbar card mb-4">
+<div class="card-body py-2 px-3">
+<div class="d-flex flex-wrap align-items-center gap-2">
+<div class="search-wrap">
+<i class="bi bi-search search-icon"></i>
+<input type="text" name="q" class="form-control search-input"
+placeholder="Search vehicle, description..." value="{{ q }}" oninput="delaySubmit(this)">
+{% if q %}
+<button type="button" class="clear-btn" onclick="clearField('q')">
+<i class="bi bi-x"></i>
+</button>
+{% endif %}
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-wrench text-secondary me-1"></i>
+<select name="event_type" class="filter-select" onchange="filterForm.submit()">
+<option value="">All Event Types</option>
+{% for val, label in event_choices %}
+<option value="{{ val }}"
+{% if selected_event|is_equal:val %}
+selected
+{% endif %}>
+{{ label }}
+</option>
+{% endfor %}
+</select>
+</div>
+<div class="separator"></div>
+<div class="filter-pill">
+<i class="bi bi-arrow-down-up text-secondary me-1"></i>
+<select name="sort" class="filter-select" onchange="filterForm.submit()">
+<option value="-date"
+{% if selected_sort|is_equal:"-date" or not selected_sort %}
+selected
+{% endif %}>
+Newest First
+</option>
+<option value="date"
+{% if selected_sort|is_equal:"date" %}
+selected
+{% endif %}>
+Oldest First
+</option>
+</select>
+</div>
+{% if q or selected_event or selected_sort %}
+<a href="{% url 'maintenance-list' %}" class="btn btn-sm btn-outline-danger ms-auto">
+<i class="bi bi-x-circle me-1"></i>Clear All
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+</form>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<p class="text-secondary mb-0" style="font-size:.85rem;">
+Showing <strong>{{ page_obj.start_index }}</strong>-<strong>{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> records
+</p>
+</div>
+<div class="card">
+{% if records %}
+<div class="table-responsive">
+<table class="table">
+<thead>
+<tr>
+<th>Vehicle</th>
+<th>Event Type</th>
+<th>Date</th>
+<th>Cost (Rs.)</th>
+<th>Performed By</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+{% for r in records %}
+<tr>
+<td>
+<strong>{{ r.vehicle.license_plate }}</strong>
+<div class="text-secondary small">{{ r.vehicle.make }} {{ r.vehicle.model }}</div>
+</td>
+<td>
+<span class="badge
+{% if r.event_type|is_equal:'REPAIR' %}
+bg-danger
+{% elif r.event_type|is_equal:'SERVICE' %}
+bg-primary
+{% else %}
+bg-secondary
+{% endif %}">
+{{ r.event_type }}
+</span>
+</td>
+<td>{{ r.date|date:"d M Y" }}</td>
+<td class="fw-600">Rs.{{ r.cost }}</td>
+<td>{{ r.performed_by }}</td>
+<td class="text-secondary small">{{ r.description|truncatechars:80 }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<div class="empty-state"><i class="bi bi-tools"></i>
+<p>No maintenance records found.</p>
+</div>
+{% endif %}
+</div>
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="d-flex justify-content-center mt-4">
+<ul class="pagination">
+{% if page_obj.has_previous %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q }}&event_type={{ selected_event }}&sort={{ selected_sort }}">Prev</a>
+</li>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+<li class="page-item
+{% if page_obj.number|is_equal:num %}
+active
+{% endif %}">
+<a class="page-link" href="?page={{ num }}&q={{ q }}&event_type={{ selected_event }}&sort={{ selected_sort }}">{{ num }}</a>
+</li>
+{% endfor %}
+{% if page_obj.has_next %}
+<li class="page-item">
+<a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q }}&event_type={{ selected_event }}&sort={{ selected_sort }}">Next</a>
+</li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<script>
+function delaySubmit(input) {
+clearTimeout(input.dataset.timer);
+input.dataset.timer = setTimeout(() => {
+input.form.submit();
+}, 500);
+}
+function clearField(name) {
+document.getElementsByName(name)[0].value = '';
+document.getElementById('filterForm').submit();
+}
+</script>
+{% endblock %}
